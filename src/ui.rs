@@ -688,7 +688,7 @@ fn get_system_type_color(system_type: &str) -> Color {
 }
 
 fn render_systems(f: &mut Frame, app: &mut App, area: Rect) {
-    // Split the area into two chunks: top half for systems list, bottom half for systems plot
+    // Split the area into two chunks: top for systems list, bottom for systems plot
     let chunks = Layout::default()
         .direction(Direction::Vertical)
         .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
@@ -1140,9 +1140,9 @@ fn render_system_detail(f: &mut Frame, app: &mut App, area: Rect) {
             .wrap(Wrap { trim: true });
         f.render_widget(basic_info_widget, chunks[1]);
 
-        // Split waypoints section: list on left, map on right
+        // Split waypoints section: list on top, map on bottom
         let waypoints_chunks = Layout::default()
-            .direction(Direction::Horizontal)
+            .direction(Direction::Vertical)
             .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
             .split(chunks[2]);
 
@@ -1443,13 +1443,13 @@ fn render_waypoint_detail(f: &mut Frame, app: &mut App, area: Rect) {
                     .wrap(Wrap { trim: true });
                 f.render_widget(basic_info_widget, chunks[1]);
 
-                // Split bottom area for orbitals and other details
+                // Split bottom area for orbitals and system details (top/bottom)
                 let bottom_chunks = Layout::default()
-                    .direction(Direction::Horizontal)
+                    .direction(Direction::Vertical)
                     .constraints([Constraint::Percentage(50), Constraint::Percentage(50)])
                     .split(chunks[2]);
 
-                // Render orbitals on the left
+                // Render orbitals on top
                 let orbitals_info = if waypoint.orbitals.is_empty() {
                     vec![Line::from("No orbital bodies")]
                 } else {
@@ -1479,7 +1479,7 @@ fn render_waypoint_detail(f: &mut Frame, app: &mut App, area: Rect) {
                     .wrap(Wrap { trim: true });
                 f.render_widget(orbitals_widget, bottom_chunks[0]);
 
-                // Render system information on the right
+                // Render system information below orbitals
                 let system_info = vec![
                     Line::from(vec![
                         Span::styled("System: ", Style::default().add_modifier(Modifier::BOLD)),
