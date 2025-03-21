@@ -1,12 +1,10 @@
-mod client;
-
 use anyhow::Result;
-use client::SpaceTradersClient;
 use colored::*;
 use console::Term;
 use dotenv::dotenv;
 use log::{error, info};
-use std::time::Duration;
+use spacetraders_api::apis::configuration::Configuration;
+use spacetraders_api::apis::global_api::get_status;
 
 fn print_banner() {
     println!("\n{}", "🚀 Space Traders API Client".bright_cyan().bold());
@@ -21,12 +19,10 @@ async fn startup_sequence() -> Result<String> {
     // Initialize environment
     info!("Loading environment variables...");
     dotenv().ok();
-    tokio::time::sleep(Duration::from_millis(500)).await;
 
     // Initialize logging
     info!("Initializing logging system...");
     env_logger::init();
-    tokio::time::sleep(Duration::from_millis(500)).await;
 
     // Load API token
     info!("Loading API credentials...");
@@ -55,7 +51,13 @@ async fn main() -> Result<()> {
     let api_token = startup_sequence().await?;
     info!("Space Traders API client ready for commands!");
 
-    let client = SpaceTradersClient::new(api_token);
+    // Configure the API client
+    let mut config = Configuration::new();
+    config.bearer_access_token = Some(api_token);
+
+    // Get server status
+    let status = get_status(&config).await?;
+    println!("Server status: {:?}", status);
 
     Ok(())
 }
