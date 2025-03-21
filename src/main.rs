@@ -3,8 +3,12 @@ use colored::*;
 use console::Term;
 use dotenv::dotenv;
 use log::{error, info};
-use spacetraders_api::apis::configuration::Configuration;
-use spacetraders_api::apis::global_api::get_status;
+
+mod client;
+mod ui;
+
+use client::SpaceTradersClient;
+use ui::{run_app, App};
 
 fn print_banner() {
     println!("\n{}", "🚀 Space Traders API Client".bright_cyan().bold());
@@ -51,13 +55,12 @@ async fn main() -> Result<()> {
     let api_token = startup_sequence().await?;
     info!("Space Traders API client ready for commands!");
 
-    // Configure the API client
-    let mut config = Configuration::new();
-    config.bearer_access_token = Some(api_token);
+    // Create client
+    let client = SpaceTradersClient::new(api_token);
 
-    // Get server status
-    let status = get_status(&config).await?;
-    println!("Server status: {:?}", status);
+    // Create and run the app
+    let mut app = App::new(client);
+    run_app(&mut app).await?;
 
     Ok(())
 }

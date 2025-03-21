@@ -1,48 +1,54 @@
 # Space Traders API Client
 
-A Rust implementation of the Space Traders API client.
+A terminal-based client for the [Space Traders API](https://spacetraders.io/), built in Rust.
 
-## Prerequisites
+## Features
 
-- Rust (latest stable version)
-- Cargo (comes with Rust)
+- Terminal UI with tabbed interface
+- View agent information
+- View your ships
+- Browse star systems
+- (Coming soon) Market information
 
-## Setup
+## Installation
+
+### Prerequisites
+
+- Rust and Cargo installed
+- A Space Traders API token
+
+### Setup
 
 1. Clone the repository
-2. Copy `.env.example` to `.env` and add your Space Traders API token
-3. Build the project:
-   ```bash
-   cargo build
-   ```
+2. Create a `.env` file in the root directory with your Space Traders API token:
 
-## Running
+```
+SPACE_TRADERS_API_TOKEN=your_token_here
+```
 
-To run the project:
+If you don't have a token yet, you can register a new agent at https://spacetraders.io/
+
+## Running the Application
 
 ```bash
 cargo run
 ```
 
-For debug logs, set the `RUST_LOG` environment variable:
+## Navigation
 
-```bash
-RUST_LOG=debug cargo run
-```
-
-## Features
-
-- Environment variable configuration
-- Async runtime with Tokio
-- Error handling with anyhow
-- Logging support
-- HTTP client with reqwest
-- JSON serialization/deserialization with serde
+- Use `Tab` key to switch between tabs
+- Press `r` to refresh data
+- Press `q` to quit
 
 ## Development
 
-To run tests:
+This project uses:
 
-```bash
-cargo test
-```
+- `ratatui` for the terminal UI
+- `crossterm` for terminal manipulation
+- `reqwest` for API requests
+- Official SpaceTraders API client
+
+## License
+
+MIT
