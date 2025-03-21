@@ -20,3 +20,5 @@ spacetraders-api = { path = "./spacetraders-api" }
 ratatui = "0.25.0"  # Terminal UI library
 crossterm = "0.27.0"  # Terminal manipulation
 tui-input = "0.8.0"  # Input handling for TUI
+ratatui-explorer = "0.1.4"
+unicode-width = "0.2.0"
